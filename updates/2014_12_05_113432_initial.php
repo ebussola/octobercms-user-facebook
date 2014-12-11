@@ -19,6 +19,11 @@ class Initial extends Migration
 
             $table->primary(['user_id', 'facebook_id']);
             $table->index(['user_id', 'facebook_id']);
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
