@@ -7,6 +7,7 @@ use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Auth;
 use DB;
+use RainLab\User\Models\User;
 
 class FacebookSession extends ComponentBase
 {
@@ -40,25 +41,24 @@ class FacebookSession extends ComponentBase
 
         $social_ids = SocialIds::where('facebook_id', $fb_user->getProperty('id'))->first();
         if (!$social_ids) {
-            if ($social_ids->user) {
-                $user = $social_ids->user;
-            } else {
-                $password = uniqid();
-                $user = Auth::register([
-                    'name' => $fb_user->getProperty('name'),
-                    'email' => $fb_user->getProperty('email'),
-                    'username' => $fb_user->getProperty('email'),
-                    'password' => $password,
-                    'password_confirmation' => $password
-                ], true);
-            }
 
-            if ($user) {
-                $social_ids = new SocialIds();
-                $social_ids->user_id = $user->id;
-                $social_ids->facebook_id = $fb_user->getProperty('id');
-                $social_ids->save();
-            }
+	        $user = User::where( 'email', $fb_user->getProperty( 'email' ) )->first();
+	        if (!$user) {
+		        $password = uniqid();
+		        $user = Auth::register([
+			        'name' => $fb_user->getProperty('name'),
+			        'email' => $fb_user->getProperty('email'),
+			        'username' => $fb_user->getProperty('email'),
+			        'password' => $password,
+			        'password_confirmation' => $password
+		        ], true);
+	        }
+
+            $social_ids = new SocialIds();
+            $social_ids->user_id = $user->id;
+            $social_ids->facebook_id = $fb_user->getProperty('id');
+            $social_ids->save();
+
         } else {
             $user = $social_ids->user;
         }
