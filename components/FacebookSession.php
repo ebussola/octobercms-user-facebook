@@ -30,7 +30,7 @@ class FacebookSession extends ComponentBase
      */
     public function init()
     {
-        $this->addJs('assets/js/min/user-facebook-min.js');
+        $this->addJs('/plugins/ebussola/userfacebook/assets/js/min/user-facebook-min.js');
     }
 
     public function onLoginWithFacebook() {
