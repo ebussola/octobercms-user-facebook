@@ -1,3 +1,5 @@
 1.0.1:
   - First version of UserFacebook
   - 2014_12_05_113432_initial.php
+
+1.1.0: Refactored code to be more simple. Added locale support. Added installation guide.

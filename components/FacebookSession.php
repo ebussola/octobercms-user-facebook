@@ -1,36 +1,36 @@
 <?php namespace Ebussola\Userfacebook\Components;
 
-use Cms\Classes\ComponentBase;
 use eBussola\Userfacebook\Models\SocialIds;
 use Facebook\FacebookJavaScriptLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Auth;
-use DB;
+use October\Rain\Support\Facades\Config;
+use RainLab\User\Components\Session;
 use RainLab\User\Models\User;
+use Request;
+use Redirect;
 
-class FacebookSession extends ComponentBase
+class FacebookSession extends Session
 {
+
+    public $appId;
 
     public function componentDetails()
     {
         return [
-            'name'        => 'FacebookSession Component',
-            'description' => 'No description provided yet...'
+            'name'        => 'Facebook Session',
+            'description' => \Lang::get('ebussola.userfacebook::lang.facebook_session.description')
         ];
     }
 
-    public function defineProperties()
-    {
-        return [];
-    }
-
     /**
-     * Executed when this component is first initialized, before AJAX requests.
+     * Executed when this component is bound to a page or layout.
      */
-    public function init()
-    {
-        $this->addJs('assets/js/min/user-facebook-min.js');
+    public function onRun() {
+        $this->appId = Config::get('ebussola.userfacebook::facebook.app_id');
+
+        parent::onRun();
     }
 
     public function onLoginWithFacebook() {
@@ -46,7 +46,8 @@ class FacebookSession extends ComponentBase
 	        if (!$user) {
 		        $password = uniqid();
 		        $user = Auth::register([
-			        'name' => $fb_user->getProperty('name'),
+			        'name' => $fb_user->getProperty('first_name'),
+                    'surname' => $fb_user->getProperty('last_name'),
 			        'email' => $fb_user->getProperty('email'),
 			        'username' => $fb_user->getProperty('email'),
 			        'password' => $password,
@@ -64,6 +65,9 @@ class FacebookSession extends ComponentBase
         }
 
         Auth::login($user, true);
+
+        $url = post('redirect', Request::fullUrl());
+        return Redirect::to($url);
     }
 
 }

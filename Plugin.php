@@ -25,10 +25,10 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'UserFacebook',
-            'description' => 'No description provided yet...',
-            'author'      => 'eBussola',
-            'icon'        => 'icon-leaf'
+            'name' => 'UserFacebook',
+            'description' => \Lang::get('ebussola.userfacebook::lang.plugin.description'),
+            'author' => 'eBussola',
+            'icon' => 'icon-facebook'
         ];
     }
 
@@ -38,8 +38,13 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            '\eBussola\Userfacebook\Components\FacebookSession' => 'facebook_session'
+            '\eBussola\Userfacebook\Components\FacebookSession' => 'facebookSession'
         ];
+    }
+
+    public function register()
+    {
+        require __DIR__ . '/vendor/autoload.php';
     }
 
     /**
@@ -49,7 +54,7 @@ class Plugin extends PluginBase
     {
         FacebookSession::setDefaultApplication(Config::get('ebussola.userfacebook::facebook.app_id'), Config::get('ebussola.userfacebook::facebook.app_secret'));
 
-        \RainLab\User\Models\User::extend(function(\RainLab\User\Models\User $model) {
+        \RainLab\User\Models\User::extend(function (\RainLab\User\Models\User $model) {
             $model->hasOne['social_ids'] = ['\eBussola\Userfacebook\Models\SocialIds'];
         });
     }
