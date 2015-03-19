@@ -3,7 +3,6 @@
 use eBussola\Userfacebook\Models\Settings;
 use Facebook\FacebookSession;
 use System\Classes\PluginBase;
-use Config;
 
 /**
  * UserFacebook Plugin Information File
