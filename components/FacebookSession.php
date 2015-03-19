@@ -1,11 +1,11 @@
 <?php namespace Ebussola\Userfacebook\Components;
 
+use eBussola\Userfacebook\Models\Settings;
 use eBussola\Userfacebook\Models\SocialIds;
 use Facebook\FacebookJavaScriptLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Auth;
-use October\Rain\Support\Facades\Config;
 use RainLab\User\Components\Session;
 use RainLab\User\Models\User;
 use Request;
@@ -28,7 +28,7 @@ class FacebookSession extends Session
      * Executed when this component is bound to a page or layout.
      */
     public function onRun() {
-        $this->appId = Config::get('ebussola.userfacebook::facebook.app_id');
+        $this->appId = Settings::get('app_id');
 
         parent::onRun();
     }

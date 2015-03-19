@@ -1,5 +1,6 @@
 <?php namespace eBussola\UserFacebook;
 
+use eBussola\Userfacebook\Models\Settings;
 use Facebook\FacebookSession;
 use System\Classes\PluginBase;
 use Config;
@@ -52,11 +53,26 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        FacebookSession::setDefaultApplication(Config::get('ebussola.userfacebook::facebook.app_id'), Config::get('ebussola.userfacebook::facebook.app_secret'));
+        FacebookSession::setDefaultApplication(Settings::get('app_id'), Settings::get('app_secret'));
 
         \RainLab\User\Models\User::extend(function (\RainLab\User\Models\User $model) {
             $model->hasOne['social_ids'] = ['\eBussola\Userfacebook\Models\SocialIds'];
         });
+    }
+
+    public function registerSettings()
+    {
+        return [
+            'settings' => [
+                'label'       => 'User Facebook Settings',
+                'description' => 'Login via Facebook.',
+                'category'    => 'User Facebook',
+                'icon'        => 'icon-facebook',
+                'class'       => '\eBussola\Userfacebook\Models\Settings',
+                'order'       => 500,
+                'keywords'    => 'facebook user'
+            ]
+        ];
     }
 
 }
