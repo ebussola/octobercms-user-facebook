@@ -30,7 +30,7 @@ class FacebookSession extends Session
     public function onRun() {
         $this->appId = Settings::get('app_id');
 
-        parent::onRun();
+        return parent::onRun();
     }
 
     public function onLoginWithFacebook() {
