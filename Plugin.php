@@ -42,6 +42,19 @@ class Plugin extends PluginBase
         ];
     }
 
+    /**
+     * Registers any back-end permissions used by this plugin.
+     */
+    public function registerPermissions()
+    {
+        return [
+            'ebussola.userfacebook.settings.facebook' => [
+                'label' => 'ebussola.userfacebook::lang.permissions.settings.facebook',
+                'tab' => 'system::lang.permissions.name'
+            ]
+        ];
+    }
+
     public function register()
     {
         require __DIR__ . '/vendor/autoload.php';
@@ -69,7 +82,8 @@ class Plugin extends PluginBase
                 'icon'        => 'icon-facebook',
                 'class'       => '\eBussola\Userfacebook\Models\Settings',
                 'order'       => 500,
-                'keywords'    => 'facebook user'
+                'keywords'    => 'facebook user',
+                'permissions' => ['ebussola.userfacebook.settings.facebook']
             ]
         ];
     }

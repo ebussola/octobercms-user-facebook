@@ -13,5 +13,11 @@ return [
 
     'facebook_session' => [
         'description' => 'Use this session instead of Rainlab.User\'s Session.'
+    ],
+
+    'permissions' => [
+        'settings' => [
+            'facebook' => 'Manager facebook token'
+        ]
     ]
 ];
