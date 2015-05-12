@@ -12,4 +12,4 @@
   - Added permissions to facebook token settings. Bugfix of User's security redirection.
 
 1.4.0:
-  - Added 2 options to component: "redirect signup" and "redirect login"
+  - Added 2 options to component "redirect signup" and "redirect login"
